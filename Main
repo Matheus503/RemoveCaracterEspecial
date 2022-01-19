@@ -1,0 +1,43 @@
+REPORT  z_remove_caracter_especial.
+
+* Aqui vai a include mágica
+INCLUDE zaz_remove_characters.
+
+* Objeto da Classe para remoção de caracteres
+DATA o_conv TYPE REF TO lcl_converte_caracter.
+
+* String qualquer
+DATA v_string  TYPE string.
+
+*--------------------------------------------------------------------*
+* START-OF-SELECTION
+*--------------------------------------------------------------------*
+START-OF-SELECTION.
+
+* Instânciando a classe
+  CREATE OBJECT o_conv.
+
+* String zuadassa!
+  v_string = 'a;b@c#d$e%f^g>h:i-j!'.
+
+* Removendo todos os caracteres e todos os espaços
+  o_conv->remove_char_mass( EXPORTING
+                             char_remove = ';@#$%^>:-'
+                             no_blanks   = 'X'
+                            CHANGING
+                             string      = v_string ).
+
+* Aqui vai ficar "abcdefghij!"
+  WRITE v_string.
+
+* adicionando caracter denovo!
+  v_string = 'a#b#c#d# e#f#g#h#i#j!'.
+
+* Vamos remover o #, e somente os espaços onde eles estavam
+  o_conv->remove_char_single( EXPORTING
+                               char_remove = '#'
+                              CHANGING
+                               string      = v_string ).
+
+* Aqui vai ficar "abcd fghij!"
+  WRITE v_string.
